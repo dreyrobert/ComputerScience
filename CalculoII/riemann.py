@@ -1,7 +1,7 @@
 import math
 
 def funcao(x):
-    return x*x
+    return math.sin(x*x)
 
 def calcular_delta_xi(final, inicial, intervalo):
     return (final - inicial) / intervalo
@@ -10,7 +10,7 @@ def ci(xi_anterior, xi):
     return (xi_anterior + xi) / 2
 
 def main():
-    print("Expressão escolhida: x^2")
+    print("Expressão escolhida: sen(x^2)")
     print()
 
     inicio = float(input("Digite o número de inicio do intervalo: "))
@@ -28,6 +28,6 @@ def main():
         xi_anterior = xi
 
     print()
-    print("A= ", area)
+    print("A= ", abs(area))
 
 main()
