@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratorio 2</title>
-    <script href="script.js"></script>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,47 +13,32 @@
     </header>
     
     <div class="container">
-        <div class="course-info">
+        <!-- Adicionando a div para as informações do curso -->
+        <div id="courseInfo" class="course-info">
             <h1>Curso de Exemplo 1</h1>
             <p>Turno: Integral</p>
             <p>Coordenação: Prof. Exemplo</p>
         </div>
         
-        <h2>Cursos</h2>
-        <table>
+        <!-- Adicionando a seleção de cursos -->
+        <select id="courseSelect">
+            <option value="curso1">Curso de Exemplo 1</option>
+            <option value="curso2">Curso de Exemplo 2</option>
+        </select>
+        
+        <h2>Horários do Curso</h2>
+        <table id="courseSchedule">
             <tr>
                 <th>Curso</th>
                 <th>Horário</th>
             </tr>
-            <tr>
-                <td rowspan="2">Curso de Exemplo 1</td>
-                <td>Segunda-feira, 8:00 - 12:00</td>
-            </tr>
-            <tr>
-                <td>Quarta-feira, 8:00 - 12:00</td>
-            </tr>
-        </table>
-        
-        <div class="course-info">
-            <h1>Curso de Exemplo 2</h1>
-            <p>Turno: Noturno</p>
-            <p>Coordenação: Prof. Exemplo</p>
-        </div>
-        
-        <h2>Cursos</h2>
-        <table>
-            <tr>
-                <th>Curso</th>
-                <th>Horário</th>
-            </tr>
-            <tr>
-                <td rowspan="2">Curso de Exemplo 2</td>
-                <td>Terça-feira, 18:00 - 22:00</td>
-            </tr>
-            <tr>
-                <td>Quinta-feira, 18:00 - 22:00</td>
-            </tr>
+            <!-- As informações do curso selecionado serão adicionadas aqui dinamicamente -->
         </table>
     </div>
+
+    <!-- Adicionando o botão -->
+    <button id="changeThemeButton">Alterar Tema</button>
+    
+    <script src="script.js"></script>
 </body>
 </html>
