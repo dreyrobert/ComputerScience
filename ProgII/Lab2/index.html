@@ -3,30 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorio 2</title>
+    <title>Agenda UFFS</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <header>
         <div>
-            <img src="https://upload.wikimedia.org/wikipedia/pt/c/c1/LOGO_UFFS_Alternativo.png" alt="UFFS Logo" width="90px" height="90px">
-            <h1>Universidade Federal da Fronteira Sul</h1>
+            <img src="https://www.uffs.edu.br/++resource++importIMG/logoUFFSverde.png" alt="UFFS Logo" width="200px" height="200px">
         </div>
     </header>
-    
+    <div class="container seletor-curso-container">
+        <div class="row row-cols-2">
+            <div>
+                <p>Escolha um curso abaixo:</p>
+                <!-- Adicionando a seleção de cursos -->
+                <select id="courseSelect" style="margin: 0px">
+                    <option value="curso1">Ciência da Computação</option>
+                    <option value="curso2">Engenharia de Software</option>
+                </select>
+            </div>
+            <div class="second">
+                <button id="changeThemeButton" class="btn btn-primary">Alterar Tema</button>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <!-- Adicionando a div para as informações do curso -->
         <div id="courseInfo" class="course-info">
-            <h1>Curso de Exemplo 1</h1>
-            <p>Turno: Integral</p>
-            <p>Coordenação: Prof. Exemplo</p>
+            <h1>Ciência da Computação</h1>
+            <p>Turno: Noturno</p>
+            <p>Coordenação: Prof. Braúlio</p>
         </div>
-        
-        <!-- Adicionando a seleção de cursos -->
-        <select id="courseSelect">
-            <option value="curso1">Curso de Exemplo 1</option>
-            <option value="curso2">Curso de Exemplo 2</option>
-        </select>
         
         <h2>Horários do Curso</h2>
         <table id="courseSchedule">
@@ -34,13 +43,36 @@
                 <th>Curso</th>
                 <th>Horário</th>
             </tr>
-            <!-- As informações do curso selecionado serão adicionadas aqui dinamicamente -->
         </table>
     </div>
-
-    <!-- Adicionando o botão -->
-    <button id="changeThemeButton">Alterar Tema</button>
+    <div class="acordeao-back">
+    <div class="container acordeao">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  Saiba mais sobre o Estudante
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Robert Biasoli Drey, matricula 2211100013.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Sobre a Disciplina
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">A disciplina de Programação II na Universidade Federal da Fronteira Sul aborda o desenvolvimento avançado de aplicações web. Os alunos aprendem linguagens como HTML, CSS, JavaScript, além de frameworks populares como React.js. O curso foca em conceitos fundamentais de programação web e práticas de desenvolvimento, capacitando os estudantes para criar aplicações completas, do frontend ao backend, utilizando tecnologias modernas como Node.js. O objetivo é preparar os alunos para atuar como desenvolvedores web qualificados e atualizados.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
     
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
