@@ -33,17 +33,6 @@ $(document).ready(function() {
         // Captura o valor selecionado
         var selectedCourse = courseSelect.val();
         
-        // Oculta todos os elementos caso nenhum curso esteja selecionado
-        if (!selectedCourse) {
-            courseInfoDiv.hide();
-            courseScheduleTable.hide();
-            return;
-        }
-        
-        // Mostra os elementos caso algum curso seja selecionado
-        courseInfoDiv.show();
-        courseScheduleTable.show();
-        
         // Atualiza dinamicamente as informações do curso
         if (selectedCourse === 'curso1') {
             courseInfoDiv.html(`
