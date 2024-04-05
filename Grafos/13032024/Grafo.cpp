@@ -31,7 +31,7 @@ bool Grafo::tem_aresta(Aresta e) {
 }
 
 void Grafo::insere_aresta(Aresta e) {
-    if (!tem_aresta(e)) {
+    if (!tem_aresta(e) && (e.v1 != e.v2)) {
         matriz_adj_[e.v1][e.v2] = 1;
         matriz_adj_[e.v2][e.v1] = 1;
 
