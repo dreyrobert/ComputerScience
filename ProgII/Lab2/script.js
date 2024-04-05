@@ -1,70 +1,73 @@
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     // Captura o botão
-    var changeThemeButton = document.getElementById('changeThemeButton');
+    var changeThemeButton = $('#changeThemeButton');
 
     // Adiciona um ouvinte de evento de clique ao botão
-    changeThemeButton.addEventListener('click', function() {
+    changeThemeButton.click(function() {
         // Captura o elemento body
-        var body = document.body;
+        var body = $('body');
 
         // Verifica se o tema atual é claro ou escuro
-        if (body.classList.contains('dark-theme')) {
+        if (body.hasClass('dark-theme')) {
             // Se o tema for escuro, remove a classe dark-theme e adiciona a classe light-theme
-            body.classList.remove('dark-theme');
-            body.classList.add('light-theme');
+            body.removeClass('dark-theme').addClass('light-theme');
         } else {
             // Se o tema for claro, remove a classe light-theme e adiciona a classe dark-theme
-            body.classList.remove('light-theme');
-            body.classList.add('dark-theme');
+            body.removeClass('light-theme').addClass('dark-theme');
         }
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     // Captura o elemento select
-    var courseSelect = document.getElementById('courseSelect');
+    var courseSelect = $('#courseSelect');
     
     // Captura o elemento div para as informações do curso
-    var courseInfoDiv = document.getElementById('courseInfo');
+    var courseInfoDiv = $('#courseInfo');
+    
+    // Captura o elemento da tabela onde as informações do curso serão exibidas
+    var courseScheduleTable = $('#courseSchedule');
     
     // Adiciona um ouvinte de evento de mudança ao elemento select
-    courseSelect.addEventListener('change', function() {
+    courseSelect.change(function() {
         // Captura o valor selecionado
-        var selectedCourse = courseSelect.value;
+        var selectedCourse = courseSelect.val();
+        
+        // Oculta todos os elementos caso nenhum curso esteja selecionado
+        if (!selectedCourse) {
+            courseInfoDiv.hide();
+            courseScheduleTable.hide();
+            return;
+        }
+        
+        // Mostra os elementos caso algum curso seja selecionado
+        courseInfoDiv.show();
+        courseScheduleTable.show();
         
         // Atualiza dinamicamente as informações do curso
         if (selectedCourse === 'curso1') {
-            courseInfoDiv.innerHTML = `
-                <h1>Curso de Exemplo 1</h1>
+            courseInfoDiv.html(`
+                <h1>Ciência da Computação</h1>
                 <p>Turno: Integral</p>
                 <p>Coordenação: Prof. Exemplo</p>
-            `;
+            `);
+            courseScheduleTable.empty().append(`
+                <tr><th>Curso</th><th>Horário</th></tr>
+                <tr><td>Programação II</td><td>Segunda-feira, 8:00 - 12:00</td></tr>
+                <tr><td rowspan="2">Compiladores</td><td>Quarta-feira, 8:00 - 12:00</td></tr>
+            `);
         } else if (selectedCourse === 'curso2') {
-            courseInfoDiv.innerHTML = `
-                <h1>Curso de Exemplo 2</h1>
+            courseInfoDiv.html(`
+                <h1>Engenharia de Software</h1>
                 <p>Turno: Noturno</p>
                 <p>Coordenação: Prof. Exemplo</p>
-            `;
+            `);
+            courseScheduleTable.empty().append(`
+                <tr><th>Curso</th><th>Horário</th></tr>
+                <tr><td>Engenharia I</td><td>Terça-feira, 18:00 - 22:00</td></tr>
+                <tr><td rowspan="2">Matemática C</td><td>Quinta-feira, 18:00 - 22:00</td></tr>
+            `);
         }
-        
-        // Captura o elemento da tabela onde as informações do curso serão exibidas
-        var courseScheduleTable = document.getElementById('courseSchedule');
-        
-        // Limpa o conteúdo atual da tabela
-        courseScheduleTable.innerHTML = '';
-        
-        // Adiciona o cabeçalho da tabela
-        courseScheduleTable.innerHTML += '<tr><th>Curso</th><th>Horário</th></tr>';
-        
-        // Adiciona as informações do curso selecionado à tabela
-        if (selectedCourse === 'curso1') {
-            courseScheduleTable.innerHTML += '<tr><td>Curso de Exemplo 1</td><td>Segunda-feira, 8:00 - 12:00</td></tr>';
-            courseScheduleTable.innerHTML += '<tr><td rowspan="2">Curso de Exemplo 1</td><td>Quarta-feira, 8:00 - 12:00</td></tr>';
-        } else if (selectedCourse === 'curso2') {
-            courseScheduleTable.innerHTML += '<tr><td>Curso de Exemplo 2</td><td>Terça-feira, 18:00 - 22:00</td></tr>';
-            courseScheduleTable.innerHTML += '<tr><td rowspan="2">Curso de Exemplo 2</td><td>Quinta-feira, 18:00 - 22:00</td></tr>';
-        }
-    });
+    }).trigger('change'); // Dispara o evento de mudança inicialmente para garantir a visibilidade correta dos elementos
 });
-
 

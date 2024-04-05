@@ -1,4 +1,4 @@
-data Nat = Zero | Suc Nat
+data Nat = Zero | Suc Nat deriving Show
 
 um :: Nat
 um = Suc Zero
@@ -22,59 +22,18 @@ integer2nat n
     | n == 0    = Zero
     | otherwise = Suc (integer2nat (n - 1))
 
+-- vou tirando um da segunda variavel e adicionando um suc na primeira ate a segunda variavel zerar
 natAdd :: Nat -> Nat -> Nat
 natAdd m Zero = m
 natAdd m (Suc n) = Suc (natAdd m n)
 
+-- a subtração de 1 de todos ate o segundo ficar zero, sobrando somente a difença em m.
 natSub :: Nat -> Nat -> Nat
 natSub m Zero = m
 natSub Zero _ = error "Não é possível subtrair de zero"
 natSub (Suc m) (Suc n) = natSub m n
 
+-- a multiplicação é o mesmo número somado o numéro de vezes que está sendo multiplicado
 natMul :: Nat -> Nat -> Nat
 natMul _ Zero = Zero
 natMul m (Suc n) = natAdd m (natMul m n)
-
-instance Show Nat where
-    show Zero = "Zero"
-    show (Suc n) = "Suc (" ++ show n ++ ")"
-
-
-main :: IO ()
-main = do
-    -- Teste da representação dos números de 1 a 4
-    putStrLn "Representação dos números de 1 a 4:"
-    putStrLn $ "Um: " ++ show (nat2integer um)
-    putStrLn $ "Dois: " ++ show (nat2integer dois)
-    putStrLn $ "Três: " ++ show (nat2integer tres)
-    putStrLn $ "Quatro: " ++ show (nat2integer quatro)
-    putStrLn ""
-
-    -- Teste da conversão de Nat para Integer
-    putStrLn "Teste de conversão de Nat para Integer:"
-    let n = integer2nat 5
-    putStrLn $ "Nat 5: " ++ show n
-    putStrLn ""
-
-    -- Teste da conversão de Integer para Nat
-    putStrLn "Teste de conversão de Integer para Nat:"
-    let m = nat2integer (Suc (Suc Zero))
-    putStrLn $ "Integer (Suc (Suc Zero)): " ++ show m
-    putStrLn ""
-
-    -- Teste de adição
-    putStrLn "Teste de adição:"
-    let soma = natAdd dois tres
-    putStrLn $ "Dois + Três: " ++ show (nat2integer soma)
-    putStrLn ""
-
-    -- Teste de subtração
-    putStrLn "Teste de subtração:"
-    let subtracao = natSub tres um
-    putStrLn $ "Três - Um: " ++ show (nat2integer subtracao)
-    putStrLn ""
-
-    -- Teste de multiplicação
-    putStrLn "Teste de multiplicação:"
-    let multiplicacao = natMul dois tres
-    putStrLn $ "Dois * Três: " ++ show (nat2integer multiplicacao)
