@@ -2,6 +2,7 @@
 
 #define GRAFO_H
 #include <vector>
+#include <list>
 #include "Aresta.h"
 
 class Grafo {
@@ -14,8 +15,9 @@ public:
     void insere_aresta(Aresta e);
     void remove_aresta(Aresta e);
     void imprimir();
+    bool eh_clique(const std::vector<int>& listaDeVertices);
 private:
-    std::vector<std::vector<int>> matriz_adj_;
+    std::vector<std::list<int>> lista_adj_;
     int num_vertices_;
     int num_arestas_;
 };
