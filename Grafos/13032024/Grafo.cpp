@@ -24,10 +24,10 @@ bool Grafo::tem_aresta(Aresta e) {
     
     for(it = lista_adj_[e.v1].begin(); it != lista_adj_[e.v1].end(); ++it){
         if(*it == e.v2){
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 void Grafo::insere_aresta(Aresta e) {
@@ -65,11 +65,11 @@ void Grafo::imprimir() {
 bool Grafo::eh_clique(const vector<int>& listaDeVertices) {
     for (size_t i = 0; i < listaDeVertices.size() - 1; ++i) {
         for (size_t j = i + 1; j < listaDeVertices.size(); ++j) {
-            if (!tem_aresta(Aresta{listaDeVertices[i], listaDeVertices[j]})) {
+            if (!tem_aresta(Aresta(listaDeVertices[i], listaDeVertices[j]))) {
                 return false;
             }
         }
     }
     return true;
-}
+} 
 

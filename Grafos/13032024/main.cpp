@@ -1,4 +1,5 @@
-#include "Grafo.h" 
+#include "Grafo.h"
+#include "Aresta.h"
 #include <iostream>
 using namespace std;
 
@@ -43,7 +44,12 @@ int main() {
                 listaDeVertices.push_back(n1); 
             }
 
-            g.eh_clique(listaDeVertices);
+            if (g.eh_clique(listaDeVertices)) {
+                cout << "SIM" << "\n";
+            }
+            else {
+                cout << "NAO" << "\n";
+            }
 
             it--;
             break;
