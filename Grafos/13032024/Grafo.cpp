@@ -1,6 +1,7 @@
 #include "Grafo.h"
 #include "Aresta.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -71,5 +72,36 @@ bool Grafo::eh_clique(const vector<int>& listaDeVertices) {
         }
     }
     return true;
-} 
+}
+
+void Grafo::imprime_graus() {
+    for (int i = 0; i < num_vertices_; i++) {
+        cout << i << ": " << lista_adj_[i].size() << endl;
+    }
+}
+
+bool Grafo::existe_caminho_restrito(int origem, int destino, Aresta evitar) {
+    vector<bool> visitado(num_vertices_, false);
+    bool encontrado = false;
+
+    dfs(origem, destino, evitar, visitado, encontrado);
+    return encontrado;
+}
+
+void Grafo::dfs(int origem, int destino, Aresta evitar, std::vector<bool>& visitado, bool& encontrado) {
+    if (origem == destino) {
+        encontrado = true;
+        return;
+    }
+
+    visitado[origem] = true;
+
+    std::list<int>::iterator it;
+    for (it = lista_adj_[origem].begin(); it != lista_adj_[origem].end(); ++it) {
+        int vizinho = *it;
+        if (!visitado[vizinho] && !(evitar.v1 == origem && evitar.v2 == vizinho) && !(evitar.v1 == vizinho && evitar.v2 == origem)) {
+            dfs(vizinho, destino, evitar, visitado, encontrado);
+        }
+    }
+}
 

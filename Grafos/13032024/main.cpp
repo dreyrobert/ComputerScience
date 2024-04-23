@@ -9,7 +9,7 @@ void info(Grafo g){
 
 int main() {
 
-    int x, y, it, n, n1;
+    int x, y, it, n, n1, a, b;
     char op;
     std::vector<int> listaDeVertices;
 
@@ -51,6 +51,21 @@ int main() {
                 cout << "NAO" << "\n";
             }
 
+            it--;
+            break;
+        case 'G':
+            g.imprime_graus();
+            cout << "\n";
+            it--;
+            break;
+        case 'C':
+            cin >> x >> y >> a >> b;
+            if (g.existe_caminho_restrito(x, y, Aresta(a,b))) {
+                cout << "SIM" << "\n";
+            }
+            else {
+                cout << "NAO" << "\n";
+            }
             it--;
             break;
 

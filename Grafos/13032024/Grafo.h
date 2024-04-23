@@ -16,10 +16,13 @@ public:
     void remove_aresta(Aresta e);
     void imprimir();
     bool eh_clique(const std::vector<int>& listaDeVertices);
+    void imprime_graus();
+    bool existe_caminho_restrito(int origem, int destino, Aresta evitar);
 private:
     std::vector<std::list<int> > lista_adj_;
     int num_vertices_;
     int num_arestas_;
+    void dfs(int origem, int destino, Aresta evitar, std::vector<bool>& visitado, bool& encontrado);
 };
 
 #endif /* GRAFO_H */
