@@ -3,10 +3,6 @@
 #include <iostream>
 using namespace std;
 
-void info(Grafo g){
-    std::cout << "Número de vertices e num de arestas: " << g.num_vertices() << " - " << g.num_arestas() << "\n";
-}
-
 int main() {
 
     int x, y, it, n, n1, a, b;

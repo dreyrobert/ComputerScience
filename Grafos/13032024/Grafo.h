@@ -22,7 +22,7 @@ private:
     std::vector<std::list<int> > lista_adj_;
     int num_vertices_;
     int num_arestas_;
-    void dfs(int origem, int destino, Aresta evitar, std::vector<bool>& visitado, bool& encontrado);
+    void busca_em_profundidade(int origem, int destino, Aresta evitar, std::vector<bool>& visitado, bool& encontrado);
 };
 
 #endif /* GRAFO_H */
