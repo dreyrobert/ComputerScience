@@ -8,7 +8,7 @@ const database = {
     },
     {
       id: 1101,
-      nome: "Ciência da Computação",
+      nome: "Engenharia de Software",
       turno: 1,
       id_campus: 1,
     },
@@ -16,13 +16,23 @@ const database = {
   ccrs: [
     {
       id: "GEX613",
-      id_curso: 1101,
+      id_curso: 1100,
       nome: "Programação II",
     },
     {
       id: "GEX003",
-      id_curso: 1101,
+      id_curso: 1100,
       nome: "Algoritmos e Programação",
+    },
+    {
+      id: "GEX708",
+      id_curso: 1101,
+      nome: "Circuitos Digitais",
+    },
+    {
+      id: "GEX001",
+      id_curso: 1101,
+      nome: "Inteligência Artificial",
     },
   ],
 };

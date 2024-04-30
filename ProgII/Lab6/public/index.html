@@ -1,141 +1,195 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda UFFS</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda UFFS</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <header>
-        <div>
-            <img src="https://www.uffs.edu.br/++resource++importIMG/logoUFFSverde.png" alt="UFFS Logo" width="200px" height="200px">
-        </div>
-    </header>
-    <div class="container seletor-curso-container">
-      <div class="alert alert-primary" role="alert">
-        Um lembrete importante pode ser colocado aqui!
-      </div>
-        <div class="row row-cols-2">
-            <div>
-                <p>Escolha um curso abaixo:</p>
-                <!-- Adicionando a seleção de cursos -->
-                <select id="courseSelect" style="margin: 0px">
-                    <option value="curso1">Ciência da Computação</option>
-                    <option value="curso2">Engenharia de Software</option>
-                </select>
-            </div>
-            <div class="second">
-                <button id="changeThemeButton" class="btn btn-primary">Alterar Tema</button>
-            </div>
-        </div>
+  <header>
+    <div>
+      <img src="https://www.uffs.edu.br/++resource++importIMG/logoUFFSverde.png" alt="UFFS Logo" width="200px"
+        height="200px">
     </div>
-    <div class="container">
-      <div class="row">
-          <div class="col-md-6">
-              <!-- Adicionando a div para as informações do curso -->
-              <div id="courseInfo" class="course-info">
-                  <h1>Ciência da Computação</h1>
-                  <p>Turno: Noturno</p>
-                  <p>Coordenação: Prof. Braúlio</p>
-              </div>
-          </div>
-          <div class="col-md-6">
-              <h5>Horários do Curso</h5>
-              <table id="courseSchedule" class="table">
-                  <thead>
-                      <tr>
-                          <th>Curso</th>
-                          <th>Horário</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <!-- As linhas da tabela serão adicionadas dinamicamente aqui -->
-                  </tbody>
-              </table>
-          </div>
+  </header>
+  <div class="container seletor-curso-container">
+    <div class="alert alert-primary" role="alert">
+      Um lembrete importante pode ser colocado aqui!
+    </div>
+    <div class="row row-cols-2">
+      <div>
+        <p>Escolha um curso abaixo:</p>
+        <!-- Adicionando a seleção de cursos -->
+        <select id="courseSelect" style="margin: 0px">
+          <option value="1100">Ciência da Computação</option>
+          <option value="1101">Engenharia de Software</option>
+        </select>
       </div>
+      <div class="second">
+        <button id="changeThemeButton" class="btn btn-primary">Alterar Tema</button>
+      </div>
+    </div>
   </div>
-    <div class="acordeao-back">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <!-- Adicionando a div para as informações do curso -->
+        <div id="courseInfo" class="course-info">
+          <h1>Ciência da Computação</h1>
+          <p>Turno: Noturno</p>
+          <p>Coordenação: Prof. Braúlio</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h5>Horários do Curso</h5>
+        <table id="courseSchedule" class="table">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As linhas da tabela serão adicionadas dinamicamente aqui -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="acordeao-back">
     <div class="container acordeao">
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                  Saiba mais sobre o Estudante
-                </button>
-              </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Robert Biasoli Drey, matricula 2211100013.</div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                  Sobre a Disciplina
-                </button>
-              </h2>
-              <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">A disciplina de Programação II na Universidade Federal da Fronteira Sul aborda o desenvolvimento avançado de aplicações web. Os alunos aprendem linguagens como HTML, CSS, JavaScript, além de frameworks populares como React.js. O curso foca em conceitos fundamentais de programação web e práticas de desenvolvimento, capacitando os estudantes para criar aplicações completas, do frontend ao backend, utilizando tecnologias modernas como Node.js. O objetivo é preparar os alunos para atuar como desenvolvedores web qualificados e atualizados.</div>
-              </div>
-            </div>
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Saiba mais sobre o Estudante
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Robert Biasoli Drey, matricula 2211100013.</div>
           </div>
         </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              Sobre a Disciplina
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">A disciplina de Programação II na Universidade Federal da Fronteira Sul aborda o
+              desenvolvimento avançado de aplicações web. Os alunos aprendem linguagens como HTML, CSS, JavaScript, além
+              de frameworks populares como React.js. O curso foca em conceitos fundamentais de programação web e
+              práticas de desenvolvimento, capacitando os estudantes para criar aplicações completas, do frontend ao
+              backend, utilizando tecnologias modernas como Node.js. O objetivo é preparar os alunos para atuar como
+              desenvolvedores web qualificados e atualizados.</div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <script src="../controllers/homepageController.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-      var courseController = {
-    courseSelect: $('#courseSelect'),
-    courseInfoDiv: $('#courseInfo'),
-    courseScheduleTable: $('#courseSchedule'),
+  </div>
 
-    init: function() {
+  <script src="../controllers/homepageController.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script>
+    var courseController = {
+      courseSelect: $('#courseSelect'),
+      courseInfoDiv: $('#courseInfo'),
+      courseScheduleTable: $('#courseSchedule'),
+
+      init: function () {
         this.courseSelect.on('change', this.updateCourseInfo.bind(this));
         this.updateCourseInfo(); // Chama a função para garantir que as informações estejam corretas na inicialização
-    },
+      },
 
-    updateCourseInfo: function() {
+      updateCourseInfo: function () {
         var selectedCourse = this.courseSelect.val();
         var _this = this;
         $.ajax({
-            url: 'https://localhost:3001/api/ccrPorCurso',
-            method: 'GET',
-            data: { id: selectedCourse },
-            success: function(response) {
-                if (response.success) {
-                    var courseData = [response.data];
-                    _this.showCourseInfo(courseData.schedule);
-                } else {
-                    // Trate o caso em que a solicitação AJAX falhou ou retornou dados inválidos
-                    console.error('Erro ao obter informações do curso');
-                }
-            },
-            error: function(xhr, status, error) {
-                // Trate o caso em que a solicitação AJAX falhou
-                console.error('Erro na solicitação AJAX:', status, error);
+          url: 'http://localhost:3001/api/ccrPorCurso',
+          method: 'GET',
+          data: { id: parseInt(selectedCourse) },
+          success: function (response) {
+            if (response.error) {
+              console.error('Erro ao obter informações do curso:', response.error);
+            } else {
+              _this.showCCRInfo(response);
             }
-        });
-    },
-
-    showCourseInfo: function(schedule) {
-            var scheduleHtml = `<tr><th>Curso</th><th>Horário</th></tr>`;
-            schedule.forEach(function(course) {
-                scheduleHtml += `<tr><td>${course.nome}</td><td>${course.id}</td></tr>`;
-            });
-
-            this.courseScheduleTable.html(scheduleHtml);
+          },
+          error: function (xhr, status, error) {
+            console.error('Erro na solicitação AJAX:', status, error);
           }
+        });
+
+        $.ajax({
+          url: 'http://localhost:3001/api/curso',
+          method: 'GET',
+          data: { id: parseInt(selectedCourse) },
+          success: function (response) {
+            if (response.error) {
+              console.error('Erro ao obter informações do curso:', response.error);
+            } else {
+              _this.showCourseInfo(response);
+            }
+          },
+          error: function (xhr, status, error) {
+            console.error('Erro na solicitação AJAX:', status, error);
+          }
+        });
+      },
+
+
+      showCCRInfo: function (schedule) {
+        var scheduleHtml = `<tr><th>Curso</th><th>Id</th></tr>`;
+        schedule.forEach(function (course) {
+          scheduleHtml += `<tr><td>${course.nome}</td><td>${course.id}</td></tr>`;
+        });
+
+        this.courseScheduleTable.html(scheduleHtml);
+      },
+
+      showCourseInfo: function (course) {
+        this.courseInfoDiv.html(`
+                <h1>${course.nome}</h1>
+                <p>Turno: ${course.turno}</p>
+                <p>Coordenação: ${course.id_campus}</p>
+            `);
+      }
     };
 
-      $(document).ready(function() {
-          courseController.init();
-      });
+    var themeController = {
+        changeThemeButton: $('#changeThemeButton'),
+        body: $('body'),
 
-    </script>
-  </body>
+        init: function() {
+            this.changeThemeButton.on('click', this.toggleTheme.bind(this));
+        },
+
+        toggleTheme: function() {
+            if (this.body.hasClass('dark-theme')) {
+                this.body.removeClass('dark-theme').addClass('light-theme');
+            } else {
+                this.body.removeClass('light-theme').addClass('dark-theme');
+            }
+        }
+    };
+
+    $(document).ready(function () {
+      courseController.init();
+      themeController.init();
+    });
+
+  </script>
+</body>
+
 </html>

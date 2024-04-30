@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const db = require('../models/database');
+const { scheduler } = require('timers/promises');
 
 // Rota GET para cursos
 router.get('/curso', (req, res) => {
@@ -9,19 +10,29 @@ router.get('/curso', (req, res) => {
     let id = parseInt(req.query.id);
     console.log("Recebi uma request GET");
 
-    for(let i = 0; i<10; i++){
-        if (id==db.cursos[i].id){
-            res.send(`CURSO ID: ${db.cursos[i].id}
-                      Nome do curso: ${db.cursos[i].nome}
-                      Turno do curso: ${db.cursos[i].turno}
-                      Campus do curso: ${db.cursos[i].id_campus}`);
-            break;
-        }else{
-            res.send("Curso não encontrado!");
+    let cursoEncontrado = false;
+    let cursoInfo = {};
+
+    for(let i = 0; i < db.cursos.length; i++){
+        if (id === db.cursos[i].id){
+            cursoInfo = {
+                id: db.cursos[i].id,
+                nome: db.cursos[i].nome,
+                turno: db.cursos[i].turno,
+                id_campus: db.cursos[i].id_campus
+            };
+            cursoEncontrado = true;
             break;
         }
     }
+
+    if (cursoEncontrado) {
+        res.json(cursoInfo);
+    } else {
+        res.json({ mensagem: "Curso não encontrado!" });
+    }
 });
+
 
 // Rota POST para cursos
 router.post('/curso', (req, res) => {
@@ -100,17 +111,28 @@ router.get('/ccr', (req, res) => {
 });
 
 router.get('/ccrPorCurso', (req, res) => {
-    
     let id = req.query.id;
     console.log("Recebi uma request GET");
 
-    for(let i = 0; i<10; i++){
-        if (id==db.ccrs[i].id_curso){
-            res.send(`ID do CCR: ${db.ccrs[i].id}
-                      Nome do CCR: ${db.ccrs[i].nome}`)
-        break;}
+    let ccrsEncontrados = [];
+
+    for(let i = 0; i < db.ccrs.length; i++){
+        if (id == db.ccrs[i].id_curso){
+            ccrsEncontrados.push({
+                id: db.ccrs[i].id,
+                nome: db.ccrs[i].nome
+            });
+        }
+    }
+
+    if (ccrsEncontrados.length > 0) {
+        res.json(ccrsEncontrados);
+    } else {
+        res.status(404).json({ error: 'CCR não encontrado para o ID do curso fornecido.' });
     }
 });
+
+
 
 router.post('/ccr', (req, res) => {
     
