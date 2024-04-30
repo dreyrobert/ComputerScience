@@ -16,10 +16,12 @@ const database = {
   ccrs: [
     {
       id: "GEX613",
+      id_curso: 1101,
       nome: "Programação II",
     },
     {
       id: "GEX003",
+      id_curso: 1101,
       nome: "Algoritmos e Programação",
     },
   ],

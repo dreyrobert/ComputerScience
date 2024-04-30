@@ -99,6 +99,19 @@ router.get('/ccr', (req, res) => {
     }
 });
 
+router.get('/ccrPorCurso', (req, res) => {
+    
+    let id = req.query.id;
+    console.log("Recebi uma request GET");
+
+    for(let i = 0; i<10; i++){
+        if (id==db.ccrs[i].id_curso){
+            res.send(`ID do CCR: ${db.ccrs[i].id}
+                      Nome do CCR: ${db.ccrs[i].nome}`)
+        break;}
+    }
+});
+
 router.post('/ccr', (req, res) => {
     
     console.log("Recebi um POST");
