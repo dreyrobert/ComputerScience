@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "ajax": "^0.0.4",
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "pg-promise": "^11.6.0",
+    "postgres": "^3.4.4"
+  }
+}
