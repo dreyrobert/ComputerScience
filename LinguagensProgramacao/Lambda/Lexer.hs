@@ -15,6 +15,8 @@ data Expr = BTrue
           | Times Expr Expr
           | If Expr Expr Expr 
           | Let String Expr Expr
+          | Paren Expr
+          | Eq Expr Expr
           deriving Show
 
 data Ty = TBool 
@@ -35,16 +37,33 @@ data Token = TokenNum Int
         | TokenIn
         | TokenOr
         | TokenLet
+        | TokenEq
+        | TokenBoolean
+        | TokenNumber
+        | TokenColon
+        | TokenArrow 
+        | TokenLParen
+        | TokenRParen
+        | TokenVar String
+        | TokenLam
         deriving Show
+
+isToken :: Char -> Bool
+isToken c = c `elem` "+-*/\\():=&"
 
 lexer :: String -> [Token]
 lexer [] = []
 lexer (c:cs) | isSpace c = lexer cs
              | isDigit c = lexNum (c:cs)
              | isAlpha c = lexKW (c:cs)
+             | isToken c = lexSymbol (c:cs)
 lexer ('+':cs) = TokenPlus : lexer cs
 lexer ('-':cs) = TokenMinus : lexer cs
 lexer ('*':cs) = TokenTimes : lexer cs
+lexer ('\\':cs) = TokenLam : lexer cs
+lexer (':':cs) = TokenColon : lexer cs
+lexer ('(':cs) = TokenLParen : lexer cs
+lexer (')':cs) = TokenRParen : lexer cs
 lexer _ = error "Erro léxico: caracter inválido!"
 
 lexNum cs = case span isDigit cs of
@@ -59,3 +78,13 @@ lexKW cs = case span isAlpha cs of
               ("or", rest) -> TokenOr : lexer rest
               ("let", rest) -> TokenLet : lexer rest
               ("in", rest) -> TokenIn : lexer rest
+              ("Bool", rest)  -> TokenBoolean : lexer rest 
+              ("Number", rest)  -> TokenNumber : lexer rest
+              (var, rest) -> TokenVar var : lexer rest
+
+lexSymbol :: String -> [Token]
+lexSymbol cs = case span isToken cs of
+                   ("->", rest) -> TokenArrow  : lexer rest
+                   ("&&", rest) -> TokenAnd    : lexer rest
+                   ("==", rest) -> TokenEq     : lexer rest
+                   _ -> error "Lexical error: símbolo inválido!"
