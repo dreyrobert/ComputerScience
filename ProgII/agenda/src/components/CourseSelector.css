@@ -1,0 +1,9 @@
+.seletor-curso-container {
+    margin-top: 20px;
+}
+
+.second {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}

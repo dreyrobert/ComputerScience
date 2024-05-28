@@ -39,40 +39,44 @@ data Token = TokenTrue
            | TokenEq
            deriving Show 
 
+data LexerError = InvalidCharacter Char
+                | InvalidSymbol String
+                deriving Show
+
 isToken :: Char -> Bool
 isToken c = elem c "->&|="
 
-lexer :: String -> [Token]
-lexer [] = [] 
-lexer ('+':cs) = TokenAdd : lexer cs 
-lexer ('\\':cs) = TokenLam : lexer cs
-lexer (':':cs) = TokenColon : lexer cs
-lexer ('(':cs) = TokenLParen : lexer cs
-lexer (')':cs) = TokenRParen : lexer cs
+lexer :: String -> Either LexerError [Token]
+lexer [] = Right [] 
+lexer ('+':cs) = fmap (TokenAdd :) (lexer cs)
+lexer ('\\':cs) = fmap (TokenLam :) (lexer cs)
+lexer (':':cs) = fmap (TokenColon :) (lexer cs)
+lexer ('(':cs) = fmap (TokenLParen :) (lexer cs)
+lexer (')':cs) = fmap (TokenRParen :) (lexer cs)
 lexer (c:cs) | isSpace c = lexer cs 
              | isDigit c = lexNum (c:cs)
              | isAlpha c = lexKW (c:cs)
              | isToken c = lexSymbol (c:cs)
-lexer _ = error "Lexical error: caracter inválido!"
+lexer (c:_) = Left (InvalidCharacter c)
 
-lexNum :: String -> [Token]
+lexNum :: String -> Either LexerError [Token]
 lexNum cs = case span isDigit cs of 
-              (num, rest) -> TokenNum (read num) : lexer rest 
+              (num, rest) -> fmap (TokenNum (read num) :) (lexer rest)
 
-lexKW :: String -> [Token]
+lexKW :: String -> Either LexerError [Token]
 lexKW cs = case span isAlpha cs of 
-             ("true", rest)  -> TokenTrue : lexer rest 
-             ("false", rest) -> TokenFalse : lexer rest 
-             ("if", rest)    -> TokenIf : lexer rest 
-             ("then", rest)  -> TokenThen : lexer rest 
-             ("else", rest)  -> TokenElse : lexer rest 
-             ("Bool", rest)  -> TokenBoolean : lexer rest 
-             ("Number", rest)  -> TokenNumber : lexer rest 
-             (var, rest)     -> TokenVar var : lexer rest 
+             ("true", rest)  -> fmap (TokenTrue :) (lexer rest)
+             ("false", rest) -> fmap (TokenFalse :) (lexer rest)
+             ("if", rest)    -> fmap (TokenIf :) (lexer rest)
+             ("then", rest)  -> fmap (TokenThen :) (lexer rest)
+             ("else", rest)  -> fmap (TokenElse :) (lexer rest)
+             ("Bool", rest)  -> fmap (TokenBoolean :) (lexer rest)
+             ("Number", rest)-> fmap (TokenNumber :) (lexer rest)
+             (var, rest)     -> fmap (TokenVar var :) (lexer rest)
 
-lexSymbol :: String -> [Token]
+lexSymbol :: String -> Either LexerError [Token]
 lexSymbol cs = case span isToken cs of
-                   ("->", rest) -> TokenArrow  : lexer rest
-                   ("&&", rest) -> TokenAnd    : lexer rest
-                   ("==", rest) -> TokenEq     : lexer rest
-                   _ -> error "Lexical error: símbolo inválido!"
+                   ("->", rest) -> fmap (TokenArrow :) (lexer rest)
+                   ("&&", rest) -> fmap (TokenAnd :) (lexer rest)
+                   ("==", rest) -> fmap (TokenEq :) (lexer rest)
+                   (sym, _)     -> Left (InvalidSymbol sym) 
