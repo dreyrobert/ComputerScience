@@ -61,7 +61,10 @@ lexer (c:_) = Left (InvalidCharacter c)
 
 lexNum :: String -> Either LexerError [Token]
 lexNum cs = case span isDigit cs of 
-              (num, rest) -> fmap (TokenNum (read num) :) (lexer rest)
+              (num, rest) -> if null rest
+                                then fmap (TokenNum (read num) :) (lexer rest)
+                                else Left (InvalidSymbol (num ++ rest))
+
 
 lexKW :: String -> Either LexerError [Token]
 lexKW cs = case span isAlpha cs of 
@@ -79,4 +82,4 @@ lexSymbol cs = case span isToken cs of
                    ("->", rest) -> fmap (TokenArrow :) (lexer rest)
                    ("&&", rest) -> fmap (TokenAnd :) (lexer rest)
                    ("==", rest) -> fmap (TokenEq :) (lexer rest)
-                   (sym, _)     -> Left (InvalidSymbol sym) 
+                   (sym, _)     -> Left (InvalidSymbol sym)

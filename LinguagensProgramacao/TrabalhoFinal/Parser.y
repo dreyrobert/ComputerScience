@@ -2,6 +2,7 @@
 module Parser where 
 
 import Lexer 
+import Control.Monad (liftM2)
 }
 
 %name parser 
@@ -51,10 +52,9 @@ Type    : Bool                       { TBool }
         | Number                     { TNum }
         | '(' Type "->" Type ')'     { TFun $2 $4 }
 
-
 { 
 
 parseError :: [Token] -> a 
-parseError _ = error "Syntax error!"
+parseError tokens = error $ "Syntax error at tokens: " ++ show tokens
 
 }
