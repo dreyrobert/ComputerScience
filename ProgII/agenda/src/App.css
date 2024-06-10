@@ -62,17 +62,17 @@ img {
 }
 
 /* Tema escuro */
-.dark-theme {
+body.dark-theme {
   background-color: #333;
   color: #fff;
 }
 
-.dark-theme th {
+body.dark-theme th {
   color: #000; /* A cor dos cabeçalhos da tabela no tema escuro */
 }
 
 /* Tema claro */
-.light-theme {
+body.light-theme {
   background-color: #fff;
   color: #333;
 }

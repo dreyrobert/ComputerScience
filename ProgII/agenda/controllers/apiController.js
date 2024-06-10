@@ -27,7 +27,7 @@ router.get("/curso", async (req, res) => {
         if (!id) {
             return res.status(400).json({ error: "ID do curso é obrigatório" });
         }
-        const cursos = await db.any("SELECT * FROM cursos WHERE id = $1;", [id]);
+        const cursos = await db.any("SELECT * FROM cursos WHERE idc = $1;", [id]);
         console.log(`Retornando o curso com id ${id}.`);
         res.status(200).json(cursos);
     } catch (error) {
@@ -36,6 +36,20 @@ router.get("/curso", async (req, res) => {
     }
 });
 
+router.get("/horario", async (req, res) => {
+    const { id } = req.query;
+    try {
+        if (!id) {
+            return res.status(400).json({ error: "ID do curso é obrigatório" });
+        }
+        const cursos = await db.any("SELECT hora, nome FROM horarios h JOIN disciplina d ON d.idh=h.idh WHERE d.idc = $1;", [id]);
+        console.log(`Retornando o horario do curso com id ${id}.`);
+        res.status(200).json(cursos);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(400);
+    }
+});
 
 router.get("/horarios", async (req, res) => {
     try {
