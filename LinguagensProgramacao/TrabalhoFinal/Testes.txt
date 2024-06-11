@@ -1,0 +1,63 @@
+-- Lexer
+lexer "try 1 with 2"
+-- Esperado: [TokenTry, TokenNum 1, TokenWith, TokenNum 2]
+
+lexer "try true with false"
+-- Esperado: [TokenTry, TokenTrue, TokenWith, TokenFalse]
+
+lexer "try (\\x:Number -> x + 1) with 0"
+-- Esperado: [TokenTry, TokenLParen, TokenLam, TokenVar "x", TokenColon, TokenNumber, TokenArrow, TokenVar "x", TokenAdd, TokenNum 1, TokenRParen, TokenWith, TokenNum 0]
+
+-- TypeChecker
+typeof [] (Try (Num 1) (Num 2))
+-- Esperado: Just TNum
+
+typeof [] (Try BTrue BFalse)
+-- Esperado: Just TBool
+
+typeof [] (Try (Num 1) BTrue)
+-- Esperado: Nothing
+
+typeof [] (Try (Lam "x" TNum (Add (Var "x") (Num 1))) (Num 0))
+-- Esperado: Nothing (porque os tipos não são os mesmos: TFun TNum TNum vs TNum)
+
+-- Parser
+parser [TokenTry, TokenNum 1, TokenWith, TokenNum 2]
+-- Esperado: Try (Num 1) (Num 2)
+
+parser [TokenTry, TokenTrue, TokenWith, TokenFalse]
+-- Esperado: Try BTrue BFalse
+
+parser [TokenTry, TokenLParen, TokenLam, TokenVar "x", TokenColon, TokenNumber, TokenArrow, TokenVar "x", TokenAdd, TokenNum 1, TokenRParen, TokenWith, TokenNum 0]
+-- Esperado: Try (Paren (Lam "x" TNum (Add (Var "x") (Num 1)))) (Num 0)
+
+-- Interpreter
+eval (Try (Num 1) (Num 2))
+-- Esperado: Num 1
+
+eval (Try BTrue BFalse)
+-- Esperado: BTrue
+
+eval (Try (Add (Num 1) (Var "x")) (Num 2)) this
+-- Esperado: Num 2 (porque "Var x" causaria um erro e "with" é usado)
+
+eval (Try (If (Var "x") (Num 1) (Num 2)) (Num 0)) this
+-- Esperado: Num 0 (porque "Var x" causaria um erro e "with" é usado)
+
+eval (Try (App (Lam "x" TNum (Add (Var "x") (Num 1))) (Num 1)) (Num 0))
+-- Esperado: Num 2 (porque a aplicação é bem-sucedida)
+
+eval (Try (App (Lam "x" TNum (Add (Var "x") (Num 1))) BTrue) (Num 0)) this
+-- Esperado: Num 0 (porque a aplicação falha e "with" é usado)
+
+eval (Try (If (Eq (Num 1) (Num 1)) (Num 3) (Num 4)) (Num 0))
+-- Esperado: Num 3 (porque a condição é verdadeira)
+
+eval (Try (If (Eq (Num 1) (Num 2)) (Num 3) (Num 4)) (Num 0))
+-- Esperado: Num 4 (porque a condição é falsa)
+
+eval (Try (And (Num 1) (Num 2)) (Num 0)) this
+-- Esperado: Num 0 (porque And não pode ser aplicado a números e "with" é usado)
+
+eval (Try (Add (Num 1) (App (Lam "x" TNum (Var "x")) (Num 2))) (Num 0))
+-- Esperado: Num 3 (porque a aplicação lambda é bem-sucedida e a adição é feita corretamente)
