@@ -47,7 +47,7 @@ eval (Try (If (Var "x") (Num 1) (Num 2)) (Num 0))
 eval (Try (App (Lam "x" TNum (Add (Var "x") (Num 1))) (Num 1)) (Num 0))
 -- Esperado: Num 2 (porque a aplicação é bem-sucedida)
 
-eval (Try (App (Lam "x" TNum (Add (Var "x") (Num 1))) BTrue) (Num 0))
+eval (Try (App (Lam "x" TNum (Add (Var "x") (Num 1))) BTrue) (Num 0)) TOP
 -- Esperado: Num 0 (porque a aplicação falha e "with" é usado)
 
 eval (Try (If (Eq (Num 1) (Num 1)) (Num 3) (Num 4)) (Num 0))
@@ -59,11 +59,11 @@ eval (Try (If (Eq (Num 1) (Num 2)) (Num 3) (Num 4)) (Num 0))
 eval (Try (And (Num 1) (Num 2)) (Num 0))
 -- Esperado: Num 0 (porque And não pode ser aplicado a números e "with" é usado)
 
-eval (Try (Add (Num 1) (App (Lam "x" TNum (Var "x")) (Num 2))) (Num 0))
+eval (Try (Add (Num 1) (App (Lam "x" TNum (Var "x")) (Num 2))) (Num 0)) TOP
 -- Esperado: Num 3 (porque a aplicação lambda é bem-sucedida e a adição é feita corretamente)
 
 -- Main
-eval $ typecheck $ parser $ lexer "try 1 + (\\x:Number -> x) 2 with 0"
+eval $ typecheck $ parser $ lexer "try 1 + (\\x:Number -> x) 2 with 0" TOP
 -- Esperado: Num 3 (porque a aplicação lambda é bem-sucedida e a adição é feita corretamente)
 
 eval $ typecheck $ parser $ lexer "try if 1 == 2 then 3 else 4 with 0"
@@ -72,10 +72,10 @@ eval $ typecheck $ parser $ lexer "try if 1 == 2 then 3 else 4 with 0"
 eval $ typecheck $ parser $ lexer "try if 1 == 1 then 3 else 4 with 0"
 -- Esperado: Num 3 (porque a condição é verdadeira)
 
-eval $ typecheck $ parser $ lexer "try (\\x:Number -> x + 1) true with 0"  
+eval $ typecheck $ parser $ lexer "try (\\x:Number -> x + 1) true with 0"  TOP
 -- Esperado: Num 0 (porque a aplicação falha e "with" é usado)
 
-eval $ typecheck $  parser $ lexer "try 1 && 2 with 0"
+eval $ typecheck $  parser $ lexer "try 1 && 2 with 0" TOP
 -- Esperado: Num 0 (porque And não pode ser aplicado a números e "with" é usado)
 
 eval $ typecheck $ parser $ lexer "try 1+x with 2"
@@ -84,5 +84,5 @@ eval $ typecheck $ parser $ lexer "try 1+x with 2"
 eval $ typecheck $ parser $ lexer "try true with false"
 -- Esperado: BTrue
 
-eval $ typecheck $ parser $ lexer "try 1 with 2"
+eval $ typecheck $ parser $ lexer "try 1 with 2" TOP
 -- Esperado: Num 1

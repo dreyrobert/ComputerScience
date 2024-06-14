@@ -92,8 +92,3 @@ eval e | isvalue e = e
        | otherwise = case step e of 
                        Just e' -> eval e'
                        _       -> e
-
--- Teste
-main = do
-    let result = eval (Try (And (Num 1) (Num 2)) (Num 0))
-    print result
