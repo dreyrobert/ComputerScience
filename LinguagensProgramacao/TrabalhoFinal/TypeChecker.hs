@@ -41,13 +41,13 @@ typeof ctx (Eq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
 typeof ctx (Paren e) = typeof ctx e
 typeof ctx (Try e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                            (Just t1, Just t2) -> if t1 == t2 then
-                                                   Just t1
+                                                  Just t1
                                                  else
-                                                   Nothing
-                           _                  -> Nothing
-
+                                                  Nothing
+                           _ -> Nothing
+typeof _ (Error _) = Nothing
 
 typecheck :: Expr -> Expr 
-typecheck e = case typeof [] e of 
+typecheck e = case typeof [] e of
                 Just _ -> e 
-                _      -> error "Type error"
+                _      -> Error "Type error"

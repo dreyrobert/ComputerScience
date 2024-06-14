@@ -4,7 +4,8 @@ import Data.Char
 
 data Ty = TBool
         | TNum
-        | TFun Ty Ty 
+        | TFun Ty Ty
+        | TError
         deriving (Show, Eq)
 
 data Expr = BTrue
