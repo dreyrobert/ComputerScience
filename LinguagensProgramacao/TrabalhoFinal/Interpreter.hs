@@ -27,12 +27,17 @@ isvalue _ = False
 -- Realiza um passo de avaliação
 step :: Expr -> Maybe Expr 
 step (Add (Num n1) (Num n2)) = Just (Num (n1 + n2))
-step (Add (Num n1) e2) = case step e2 of 
-                           Just e2' -> Just (Add (Num n1) e2')
-                           _        -> Nothing
-step (Add e1 e2) = case step e1 of 
-                     Just e1' -> Just (Add e1' e2)
-                     _        -> Nothing
+step (Add (Num n1) e2) | not (isvalue e2) = case step e2 of
+                                               Just e2' -> Just (Add (Num n1) e2')
+                                               _        -> Nothing
+                       | otherwise = Just (Error "Add requires numerical operands")
+step (Add e1 e2) | not (isvalue e1) = case step e1 of
+                                        Just e1' -> Just (Add e1' e2)
+                                        _        -> Nothing
+                 | isvalue e1 && not (isvalue e2) = case step e2 of
+                                                     Just e2' -> Just (Add e1 e2')
+                                                     _        -> Nothing
+                 | otherwise = Just (Error "Add requires numerical operands")
 step (And BFalse _) = Just BFalse 
 step (And BTrue e2) = Just e2
 step (And e1 e2) | isvalue e1 && not (isvalue e2) = case step e2 of 
@@ -42,29 +47,37 @@ step (And e1 e2) | isvalue e1 && not (isvalue e2) = case step e2 of
                                         Just e1' -> Just (And e1' e2)
                                         _        -> Nothing
                  | otherwise = Just (Error "And requires boolean operands")
-step (If BTrue e1 _) = Just e1 
-step (If BFalse _ e2) = Just e2 
-step (If e e1 e2) = case step e of 
-                      Just e' -> Just (If e' e1 e2)
-                      _       -> Nothing 
-step (App e1@(Lam x t b) e2) | isvalue e2 = Just (subst x e2 b)
-                             | otherwise = case step e2 of 
-                                             Just e2' -> Just (App e1 e2')
-                                             _        -> Nothing 
-step (App e1 e2) = case step e1 of 
-                     Just e1' -> Just (App e1' e2)
-                     _        -> Nothing 
+step (If BTrue e1 _) = Just e1
+step (If BFalse _ e2) = Just e2
+step (If e e1 e2) | not (isvalue e) = case step e of
+                                        Just e' -> Just (If e' e1 e2)
+                                        _       -> Nothing
+                  | otherwise = Just (Error "If condition must be a boolean value")
+step (App e1@(Lam x t b) e2) 
+  | isvalue e2 = Just (subst x e2 b)
+  | otherwise  = case step e2 of 
+                   Just e2' -> Just (App e1 e2')
+                   _        -> Nothing 
+
+step (App e1 e2) 
+  | not (isvalue e1) = case step e1 of
+                         Just e1' -> Just (App e1' e2)
+                         _        -> Nothing
+  | otherwise        = Just (Error "App requires function in first position")
 step (Paren e) = Just e
-step (Eq e1 e2) | isvalue e1 && isvalue e2 = if e1 == e2 then
-                                               Just BTrue 
-                                             else 
-                                               Just BFalse 
-                | isvalue e1 = case step e2 of 
-                                 Just e2' -> Just (Eq e1 e2')
-                                 _        -> Nothing
-                | otherwise = case step e1 of 
-                                Just e1' -> Just (Eq e1' e2)
-                                _        -> Nothing
+step (Eq e1 e2) 
+  | isvalue e1 && isvalue e2 = if e1 == e2 then
+                                 Just BTrue 
+                               else 
+                                 Just BFalse 
+  | isvalue e1 = case step e2 of 
+                   Just e2' -> Just (Eq e1 e2')
+                   _        -> Nothing
+  | not (isvalue e1) = case step e1 of 
+                         Just e1' -> Just (Eq e1' e2)
+                         _        -> Nothing
+  | otherwise = Just (Error "Eq requires values")
+step (Var x) = Just (Error ("Unbound variable: " ++ x))
 step (Try e1 e2) 
     | isvalue e1 = Just e1
     | otherwise = case step e1 of

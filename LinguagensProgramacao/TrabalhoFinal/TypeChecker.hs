@@ -43,8 +43,8 @@ typeof ctx (Try e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                            (Just t1, Just t2) -> if t1 == t2 then
                                                   Just t1
                                                  else
-                                                  Nothing
-                           _ -> Nothing
+                                                  Just TError
+                           _ -> Just TError
 typeof _ (Error _) = Nothing
 
 typecheck :: Expr -> Expr 
