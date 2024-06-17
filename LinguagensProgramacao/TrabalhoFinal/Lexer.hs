@@ -1,6 +1,6 @@
-module Lexer where 
+module Lexer where
 
-import Data.Char 
+import Data.Char
 
 data Ty = TBool
         | TNum
@@ -20,7 +20,7 @@ data Expr = BTrue
           | Paren Expr
           | Eq Expr Expr
           | Try Expr Expr
-          | Error String
+          | Err
           deriving (Show, Eq)
 
 data Token = TokenTrue 
@@ -42,10 +42,11 @@ data Token = TokenTrue
            | TokenEq
            | TokenTry
            | TokenWith
+           | TokenError
            deriving Show 
 
 isToken :: Char -> Bool
-isToken c = elem c "->&|="
+isToken c = elem c "=&|->"
 
 lexer :: String -> [Token]
 lexer [] = [] 
@@ -58,7 +59,7 @@ lexer (c:cs) | isSpace c = lexer cs
              | isDigit c = lexNum (c:cs)
              | isAlpha c = lexKW (c:cs)
              | isToken c = lexSymbol (c:cs)
-lexer _ = error "Lexical error: caracter inválido!"
+lexer _ = error "Lexical error: invalid character!"
 
 lexNum :: String -> [Token]
 lexNum cs = case span isDigit cs of 
@@ -72,11 +73,10 @@ lexKW cs = case span isAlpha cs of
              ("then", rest)  -> TokenThen : lexer rest 
              ("else", rest)  -> TokenElse : lexer rest 
              ("Bool", rest)  -> TokenBoolean : lexer rest 
-             ("Number", rest)  -> TokenNumber : lexer rest
-             ("try", rest)  -> TokenTry : lexer rest
+             ("Number", rest) -> TokenNumber : lexer rest
+             ("try", rest)   -> TokenTry : lexer rest
              ("with", rest)  -> TokenWith : lexer rest
-             ("add", rest)  -> TokenAdd : lexer rest
-             ("and", rest)  -> TokenAnd : lexer rest 
+             ("err", rest)  -> TokenError : lexer rest
              (var, rest)     -> TokenVar var : lexer rest 
 
 lexSymbol :: String -> [Token]
@@ -84,4 +84,4 @@ lexSymbol cs = case span isToken cs of
                    ("->", rest) -> TokenArrow  : lexer rest
                    ("&&", rest) -> TokenAnd    : lexer rest
                    ("==", rest) -> TokenEq     : lexer rest
-                   _ -> error "Lexical error: símbolo inválido!"
+                   _ -> error "Lexical error: invalid symbol!"

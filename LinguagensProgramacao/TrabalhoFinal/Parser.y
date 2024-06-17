@@ -1,10 +1,10 @@
 {
-module Parser where 
+module Parser where
 
-import Lexer 
+import Lexer
 }
 
-%name parser 
+%name parser
 %tokentype { Token }
 %error { parseError }
 
@@ -28,6 +28,7 @@ import Lexer
     Number      { TokenNumber }
     try         { TokenTry }
     with        { TokenWith }
+    err         { TokenError }
 
 %nonassoc if then else
 %nonassoc try with
@@ -36,7 +37,7 @@ import Lexer
 %left "&&"
 %left "=="
 
-%% 
+%%
 
 Exp     : num                        { Num $1 }
         | var                        { Var $1 }
@@ -50,14 +51,13 @@ Exp     : num                        { Num $1 }
         | '(' Exp ')'                { Paren $2 }
         | Exp "==" Exp               { Eq $1 $3 }
         | try Exp with Exp           { Try $2 $4 }
+        | err                        { Err }
 
 Type    : Bool                       { TBool }
         | Number                     { TNum }
         | '(' Type "->" Type ')'     { TFun $2 $4 }
 
-{ 
-
-parseError :: [Token] -> a 
+{
+parseError :: [Token] -> a
 parseError _ = error "Syntax error!"
-
 }
