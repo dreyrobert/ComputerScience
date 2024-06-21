@@ -1,0 +1,1 @@
+try if 0 == try err with 0 then true else false with 0

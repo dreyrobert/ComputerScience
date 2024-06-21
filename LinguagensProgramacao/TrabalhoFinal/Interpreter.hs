@@ -26,6 +26,8 @@ isvalue Err = True
 isvalue _ = False 
 
 step :: Expr -> Maybe Expr 
+step (Add Err _) = Just Err
+step (Add _ Err) = Just Err
 step (Add (Num n1) (Num n2)) = Just (Num (n1 + n2))
 step (Add (Num n1) e2) = case step e2 of 
                            Just e2' -> Just (Add (Num n1) e2')
@@ -33,16 +35,21 @@ step (Add (Num n1) e2) = case step e2 of
 step (Add e1 e2) = case step e1 of 
                      Just e1' -> Just (Add e1' e2)
                      _        -> Nothing 
+step (And Err _) = Just Err
+step (And _ Err) = Just Err
 step (And BTrue e2) = Just e2 
 step (And BFalse _) = Just BFalse 
 step (And e1 e2) = case step e1 of 
                      Just e1' -> Just (And e1' e2)
                      _        -> Nothing
+step (If Err _ _) = Just Err
 step (If BTrue e1 _) = Just e1 
 step (If BFalse _ e2) = Just e2 
 step (If e e1 e2) = case step e of 
                       Just e' -> Just (If e' e1 e2)
                       _       -> Nothing
+step (App Err _) = Just Err
+step (App _ Err) = Just Err
 step (App e1@(Lam x t b) e2) | isvalue e2 = Just (subst x e2 b)
                              | otherwise = case step e2 of 
                                              Just e2' -> Just (App e1 e2')
@@ -51,6 +58,8 @@ step (App e1 e2) = case step e1 of
                      Just e1' -> Just (App e1' e2)
                      _        -> Nothing
 step (Paren e) = Just e
+step (Eq Err _) = Just Err
+step (Eq _ Err) = Just Err
 step (Eq e1 e2) | isvalue e1 && isvalue e2 = if (e1 == e2) then
                                                Just BTrue 
                                              else 
@@ -61,6 +70,7 @@ step (Eq e1 e2) | isvalue e1 && isvalue e2 = if (e1 == e2) then
                 | otherwise = case step e1 of 
                                 Just e1' -> Just (Eq e1' e2)
                                 _        -> Nothing 
+step (Try Err e2) = Just e2
 step (Try e1 e2) | isvalue e1 = case e1 of
                                   Err -> Just e2
                                   _   -> Just e1

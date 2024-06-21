@@ -45,14 +45,13 @@ typeof ctx (Eq e1 e2) =
 
 typeof ctx (Paren e) = typeof ctx e
 
--- Modificação da regra T-Try
 typeof ctx (Try e1 e2) = 
     case (typeof ctx e1, typeof ctx e2) of
-        (Just t1, Just t2) -> if t1 == t2 then Just t1 else Nothing
-        (_, Just t2)       -> Just t2
-        _                  -> Nothing
+        (Just TError, Just t2) -> Just t2
+        -- (Just t1, Just t2) -> if t1 == t2 then Just t1 else Just TError
+        (Just t1, _)            -> Just t1
+        _           -> Nothing
 
--- Modificação da regra T-Error
 typeof _ Err = Just TError
 
 typecheck :: Expr -> Expr 
