@@ -12,9 +12,9 @@
 #define ARESTA_H
 
 class Aresta {
-
-    /* Complete aqui */
-
+public:
+    Aresta(int v1, int v2, int peso);
+    const int v1, v2, peso;
 };
 
 #endif /* ARESTA_H */

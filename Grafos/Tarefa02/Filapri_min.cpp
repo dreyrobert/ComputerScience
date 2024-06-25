@@ -11,8 +11,16 @@
 #include <exception>
 #include <stdexcept>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
+
+template<typename T>
+std::string to_string(T value) {
+    std::ostringstream os;
+    os << value;
+    return os.str();
+}
 
 template <typename T>
 Filapri_min<T>::Filapri_min(int max_num_itens) {
@@ -70,7 +78,8 @@ void Filapri_min<T>::insere(int ind, T prio) {
             to_string(ind) + " do item ja existe na fila de prioridade!"));
     }
 
-    itens_[num_itens_] = {ind, prio};
+    itens_[num_itens_].first = ind;
+    itens_[num_itens_].second = prio;
     ind_posfila_[ind] = num_itens_;
     num_itens_++;
 
