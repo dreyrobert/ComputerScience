@@ -3,8 +3,8 @@
  *
  * GEN254 - Grafos - 2024/1
  *
- * Nome:      XXXX
- * Matricula: XXXX
+ * Nome:      Robert Biasoli Drey
+ * Matricula: 2211100013
  */
 
 #include "Digrafo.h"
@@ -70,8 +70,8 @@ Digrafo Digrafo::inverter() {
 
 void Digrafo::Dijkstra(int origem, std::vector<int>& distancias, std::vector<int>& predecessores) {
     int n = num_vertices_;
-    distancias.resize(n, INT_MAX);
-    predecessores.resize(n, -1);
+    distancias.resize(n, INT_MAX); // distância de origem até u
+    predecessores.resize(n, -1); // pai de u é predecessores[u]
     distancias[origem] = 0;
 
     Filapri_min<int> fila(n);
@@ -83,7 +83,7 @@ void Digrafo::Dijkstra(int origem, std::vector<int>& distancias, std::vector<int
 
         for (const Aresta& a : lista_adj_[u]) {
             int v = a.v2;
-            float peso = a.peso;
+            int peso = a.peso;
 
             if (distancias[v] > distancias[u] + peso) {
                 distancias[v] = distancias[u] + peso;

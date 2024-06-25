@@ -3,8 +3,8 @@
  *
  * GEN254 - Grafos - 2024/1
  *
- * Nome:      XXXX
- * Matricula: XXXX
+ * Nome:      Robert Biasoli Drey
+ * Matricula: 2211100013
  */
 
 #include "Aresta.h"
